@@ -63,9 +63,6 @@ db.sqlite3
 
 # Ignore VSCode launch configs
 *.code-workspace
-<<<<<<< HEAD
 
 data/
-dataapp/data/namaz_logs_anon.json
-=======
->>>>>>> 69b87370e0029a7a82f2246e530c9846565a90b6
+data
