@@ -1,10 +1,9 @@
-import asyncio
-from motor.motor_asyncio import AsyncIOMotorClient
-import json
-import os
-from dotenv import load_dotenv
+import uvicorn
+from fastapi import FastAPI
+from routes.user_routes import router as user_router
 
-load_dotenv()
+app = FastAPI()
+app.include_router(user_router)
 
-cluster = AsyncIOMotorClient(os.getenv("MONGO_KEY"))
-db = cluster.swp_db
+if __name__ == "__main__":
+    uvicorn.run("main:app", reload=True)
