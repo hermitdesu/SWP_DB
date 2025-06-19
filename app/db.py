@@ -7,5 +7,5 @@ load_dotenv()
 client = AsyncIOMotorClient(os.getenv("MONGO_KEY"))
 db = client.swp_db
 
-user_collection = db.users
-log_collection = db.logs
+users_collection = db.users
+logs_collection = db.logs
