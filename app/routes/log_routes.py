@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from models.log import LogIn, LogDB
-from cruds.log_crud import insert_log, get_log, update_log, delete_log
-from db import logs_collection
+from app.models.log import LogIn, LogDB
+from app.cruds.log_crud import insert_log, get_log, update_log, delete_log
+from app.db import logs_collection
 
 router = APIRouter(prefix="/logs", tags=["Logs"])
 

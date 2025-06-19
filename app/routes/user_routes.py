@@ -1,12 +1,11 @@
 from fastapi import APIRouter, HTTPException
-
-from models.user import UserIn, UserDB, Conversation, Message
-from cruds.user_crud import (
+from app.models.user import UserIn, UserDB, Conversation, Message
+from app.cruds.user_crud import (
     insert_user, get_user_by_id, get_user_by_tg_id,
     update_user, delete_user_by_id, delete_user_by_tg_id,
     add_conversation, add_message_to_conversation
 )
-from db import users_collection
+from app.db import users_collection
 
 router = APIRouter(prefix="/users", tags=["Users"])
 

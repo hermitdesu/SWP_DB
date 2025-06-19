@@ -1,6 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
 from bson import ObjectId, errors
-from models.user import UserIn, Conversation, Message
+from app.models.user import UserIn, Conversation, Message
 
 
 async def insert_user(collection: AsyncIOMotorCollection, user: UserIn) -> str:

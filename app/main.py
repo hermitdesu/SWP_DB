@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
-from routes.user_routes import router as user_router
-from routes.log_routes import router as log_router
+from app.routes.user_routes import router as user_router
+from app.routes.log_routes import router as log_router
 
 app = FastAPI()
 app.include_router(user_router)
