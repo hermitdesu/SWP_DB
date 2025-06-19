@@ -63,3 +63,5 @@ db.sqlite3
 
 # Ignore VSCode launch configs
 *.code-workspace
+
+data/
