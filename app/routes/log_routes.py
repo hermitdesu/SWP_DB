@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, HTTPException
-from motor.motor_asyncio import AsyncIOMotorCollection
 
 from app.models.log import LogIn, LogDB
 from app.cruds.log_crud import insert_log, get_log, update_log, delete_log

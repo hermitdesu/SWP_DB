@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+print(os.getenv("MONGO_KEY"))
 client = AsyncIOMotorClient(os.getenv("MONGO_KEY"))
 db = client.swp_db
 
