@@ -1,12 +1,10 @@
 import os
 from motor.motor_asyncio import AsyncIOMotorClient
-from dotenv import load_dotenv
 
-load_dotenv()
+MONGO_URI = os.getenv("MONGO_KEY")
+print("MONGO_KEY:", MONGO_URI)
 
-print("MONGO_KEY:", os.getenv("MONGO_KEY"))
-
-client = AsyncIOMotorClient(os.getenv("MONGO_KEY"))
+client = AsyncIOMotorClient(MONGO_URI)
 db = client.swp_db
 
 users_collection = db.users

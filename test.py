@@ -14,7 +14,7 @@ data = {
     "bundle_version_at_install": 1
 }
 
-response = requests.post(url, json=data)  # <--- передаём СЛОВАРЬ, не строку!
+response = requests.post(url, json=data)
 
 print(response.status_code)
-print(response.text)  # Покажи текст тела, если вдруг JSON не приходит
+print(response.text)
