@@ -65,4 +65,4 @@ db.sqlite3
 *.code-workspace
 
 data/
-data
+dataapp/data/namaz_logs_anon.json
