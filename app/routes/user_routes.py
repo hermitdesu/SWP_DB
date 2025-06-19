@@ -43,7 +43,7 @@ async def update_user_by_id(user_id: str, user: UserIn):
 
 
 @router.delete("/{user_id}", response_model=bool)
-async def delete_user(user_id: str):
+async def delete_user_by_id(user_id: str):
     success = await delete_user_by_id(users_collection, user_id)
     if not success:
         raise HTTPException(status_code=404, detail="User not found")
@@ -51,7 +51,7 @@ async def delete_user(user_id: str):
 
 
 @router.delete("/tg/{tg_id}", response_model=bool)
-async def delete_user_by_telegram_id(tg_id: int):
+async def delete_user_by_tg_id(tg_id: int):
     success = await delete_user_by_tg_id(users_collection, tg_id)
     if not success:
         raise HTTPException(status_code=404, detail="User not found")
@@ -59,7 +59,7 @@ async def delete_user_by_telegram_id(tg_id: int):
 
 
 @router.post("/{user_id}/conversations", response_model=bool)
-async def add_new_conversation(user_id: str, conversation: Conversation):
+async def add_conversation(user_id: str, conversation: Conversation):
     success = await add_conversation(users_collection, user_id, conversation)
     if not success:
         raise HTTPException(status_code=404, detail="User not found or conversation not added")
