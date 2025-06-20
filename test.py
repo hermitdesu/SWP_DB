@@ -1,6 +1,6 @@
 import requests
 
-url = "https://swpdb-production.up.railway.app/users/" + "685526bd7ae06434bc1ca2a3"
+url = "https://swpdb-production.up.railway.app/logs/"
 
 data = {
     "tg_id": 200,
@@ -30,7 +30,17 @@ message_data = {
     "time": "2025-06-02T08:47:49.655+00:00"
 }
 
-response = requests.get(url)
+log_data = {
+    "user_id": "user_id",
+    "activity_id": "name",
+    "type": "string",
+    "value": "string",
+    "start_time": "2025-06-20T10:11:15.012Z",
+    "completion_time": "2025-06-20T10:11:15.012Z",
+    "build_version": "string"
+}
+
+response = requests.post(url, json=log_data)
 
 print(response.status_code)
 print(response.text)

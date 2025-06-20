@@ -9,7 +9,7 @@ router = APIRouter(prefix="/logs", tags=["Logs"])
 
 @router.post("/", response_model=LogOut)
 async def create_log(log: LogIn):
-    inserted_id = await crud.insert_log(logs_collection, log)
+    inserted_id = await crud.create_log(logs_collection, log)
     log_doc = await crud.read_log(logs_collection, inserted_id)
     if not log_doc:
         raise HTTPException(status_code=500, detail="Log creation failed")
