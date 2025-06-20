@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.models.user import UserIn, UserDB, Conversation, Message
+from app.models.user import UserIn, UserDB, Conversation, Message, UserOut
 from app.cruds.user_crud import (
     insert_user, get_user_by_id, get_user_by_tg_id,
     update_user, delete_user_by_id, delete_user_by_tg_id,
@@ -10,28 +10,28 @@ from app.db import users_collection
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
-@router.post("/", response_model=UserDB)
+@router.post("/", response_model=UserOut)
 async def create_user(user: UserIn):
     inserted_id = await insert_user(users_collection, user)
     user = await get_user_by_id(users_collection, inserted_id)
     if not user:
         raise HTTPException(status_code=500, detail="User creation failed")
-    return UserDB(**user)
+    return UserOut(**user)
 
 
-@router.get("/{user_id}", response_model=UserDB)
+@router.get("/{user_id}", response_model=UserOut)
 async def read_user_by_id(user_id: str):
     user = await get_user_by_id(users_collection, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    return UserDB(**user)
+    return UserOut(**user)
 
-@router.get("/tg/{tg_id}", response_model=UserDB)
+@router.get("/tg/{tg_id}", response_model=UserOut)
 async def read_user_by_tg_id(tg_id: int):
     user = await get_user_by_tg_id(users_collection, tg_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    return UserDB(**user)
+    return UserOut(**user)
 
 
 @router.put("/{user_id}", response_model=bool)
