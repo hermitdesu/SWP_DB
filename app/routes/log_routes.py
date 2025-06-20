@@ -13,15 +13,21 @@ async def create_log(log: LogIn):
     log_doc = await get_log(logs_collection, inserted_id)
     if not log_doc:
         raise HTTPException(status_code=500, detail="Log creation failed")
+
+    log_doc["_id"] = str(log_doc["_id"])
+
     return LogOut(**log_doc)
 
 
-@router.get("/{log_id}", response_model=LogDB)
+@router.get("/{log_id}", response_model=LogOut)
 async def read_log_by_id(log_id: str):
-    log = await get_log(logs_collection, log_id)
-    if not log:
+    log_doc = await get_log(logs_collection, log_id)
+    if not log_doc:
         raise HTTPException(status_code=404, detail="Log not found")
-    return LogOut(**log)
+
+    log_doc["_id"] = str(log_doc["_id"])
+
+    return LogOut(**log_doc)
 
 
 @router.put("/{log_id}", response_model=bool)
