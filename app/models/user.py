@@ -64,5 +64,6 @@ class UserDB(UserIn):
 
 class UserOut(UserIn):
     id: str = Field(alias="_id")
+    conversations: List[Conversation] = Field(default_factory=list)
 
     model_config = ConfigDict(populate_by_name=True)
