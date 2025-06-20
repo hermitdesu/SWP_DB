@@ -43,3 +43,9 @@ class LogDB(LogIn):
     id: PyObjectId = Field(default=None, alias="_id")
 
     model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
+
+
+class LogOut(LogIn):
+    id: str = Field(alias="_id")
+
+    model_config = ConfigDict(populate_by_name=True)

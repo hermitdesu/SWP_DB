@@ -59,3 +59,9 @@ class UserDB(UserIn):
     conversations: List[Conversation] = Field(default_factory=list)
 
     model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
+
+
+class UserOut(UserIn):
+    id: str = Field(alias="_id")
+
+    model_config = ConfigDict(populate_by_name=True)
