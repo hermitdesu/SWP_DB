@@ -1,6 +1,6 @@
 import requests
 
-url = "https://swpdb-production.up.railway.app/users/"
+url = "https://swpdb-production.up.railway.app/users/" + "6855176bdbac361bd269d3c6"
 
 data = {
     "tg_id": 0,
@@ -14,7 +14,7 @@ data = {
     "bundle_version_at_install": 1
 }
 
-response = requests.post(url, json=data)
+response = requests.delete(url)
 
 print(response.status_code)
 print(response.text)

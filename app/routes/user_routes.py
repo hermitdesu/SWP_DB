@@ -1,19 +1,16 @@
 from fastapi import APIRouter, HTTPException
 from app.models.user import UserIn, UserDB, Conversation, Message, UserOut
-from app.cruds.user_crud import (
-    insert_user, get_user_by_id, get_user_by_tg_id,
-    update_user, delete_user_by_id, delete_user_by_tg_id,
-    add_conversation, add_message_to_conversation
-)
 from app.db import users_collection
+
+import app.cruds.user_crud as crud
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
 @router.post("/", response_model=UserOut)
 async def create_user(user: UserIn):
-    inserted_id = await insert_user(users_collection, user)
-    user_doc = await get_user_by_id(users_collection, inserted_id)
+    inserted_id = await crud.create_user(users_collection, user)
+    user_doc = await crud.read_user_by_id(users_collection, inserted_id)
     if not user:
         raise HTTPException(status_code=500, detail="User creation failed")
     
@@ -24,7 +21,7 @@ async def create_user(user: UserIn):
 
 @router.get("/{user_id}", response_model=UserOut)
 async def read_user_by_id(user_id: str):
-    user_doc = await get_user_by_id(users_collection, user_id)
+    user_doc = await crud.read_user_by_id(users_collection, user_id)
     if not user_doc:
         raise HTTPException(status_code=404, detail="User not found")
     
@@ -34,7 +31,7 @@ async def read_user_by_id(user_id: str):
 
 @router.get("/tg/{tg_id}", response_model=UserOut)
 async def read_user_by_tg_id(tg_id: int):
-    user_doc = await get_user_by_tg_id(users_collection, tg_id)
+    user_doc = await crud.read_user_by_tg_id(users_collection, tg_id)
     if not user_doc:
         raise HTTPException(status_code=404, detail="User not found")
     
@@ -45,7 +42,7 @@ async def read_user_by_tg_id(tg_id: int):
 
 @router.put("/{user_id}", response_model=bool)
 async def update_user_by_id(user_id: str, user: UserIn):
-    success = await update_user(users_collection, user_id, user)
+    success = await crud.update_user(users_collection, user_id, user)
     if not success:
         raise HTTPException(status_code=404, detail="User not updated")
     return True
@@ -53,7 +50,7 @@ async def update_user_by_id(user_id: str, user: UserIn):
 
 @router.delete("/{user_id}", response_model=bool)
 async def delete_user_by_id(user_id: str):
-    success = await delete_user_by_id(users_collection, user_id)
+    success = await crud.delete_user_by_id(users_collection, user_id)
     if not success:
         raise HTTPException(status_code=404, detail="User not found")
     return True
@@ -61,15 +58,31 @@ async def delete_user_by_id(user_id: str):
 
 @router.delete("/tg/{tg_id}", response_model=bool)
 async def delete_user_by_tg_id(tg_id: int):
-    success = await delete_user_by_tg_id(users_collection, tg_id)
+    success = await crud.delete_user_by_tg_id(users_collection, tg_id)
     if not success:
         raise HTTPException(status_code=404, detail="User not found")
     return True
 
 
+@router.get("/{user_id}/conversations/{conv_index}", response_model=Conversation)
+async def get_conversation_by_index(user_id: str, conv_index: int):
+    conv = await crud.read_conversation_by_index(users_collection, user_id, conv_index)
+    if not conv:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    return conv
+
+
+@router.get("/{user_id}/messages", response_model=list[Message])
+async def get_all_messages(user_id: str):
+    messages = await crud.read_all_messages(users_collection, user_id)
+    if messages is None:
+        raise HTTPException(status_code=404, detail="User or messages not found")
+    return messages
+
+
 @router.post("/{user_id}/conversations", response_model=bool)
 async def add_conversation(user_id: str, conversation: Conversation):
-    success = await add_conversation(users_collection, user_id, conversation)
+    success = await crud.insert_conversation(users_collection, user_id, conversation)
     if not success:
         raise HTTPException(status_code=404, detail="User not found or conversation not added")
     return True
@@ -77,7 +90,7 @@ async def add_conversation(user_id: str, conversation: Conversation):
 
 @router.post("/{user_id}/conversations/{conv_index}/messages", response_model=bool)
 async def add_message(user_id: str, conv_index: int, message: Message):
-    success = await add_message_to_conversation(users_collection, user_id, conv_index, message)
+    success = await crud.insert_message(users_collection, user_id, conv_index, message)
     if not success:
         raise HTTPException(status_code=404, detail="User or conversation not found")
     return True

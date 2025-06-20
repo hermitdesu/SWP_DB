@@ -48,6 +48,7 @@ class UserIn(BaseModel):
     language: Literal["ru", "en"]
     recommendation_method: Optional[Literal["fixed", "kb", "cf"]] = None
     launch_count: int = 0
+    conversations_count: int = 0
     current_bundle_version: Optional[int] = None
     bundle_version_at_install: Optional[int] = None
 
