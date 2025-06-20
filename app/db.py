@@ -1,14 +1,15 @@
 import os
 from motor.motor_asyncio import AsyncIOMotorClient
 
-MONGO_URI = os.getenv("MONGO_KEY")
+
+MONGO_KEY = os.getenv("MONGO_KEY")
 
 
-if not MONGO_URI:
+if not MONGO_KEY:
     raise ValueError("MONGODB_URI not set")
 
 
-client = AsyncIOMotorClient(MONGO_URI)
+client = AsyncIOMotorClient(MONGO_KEY)
 db = client.swp_db
 
 users_collection = db.users
