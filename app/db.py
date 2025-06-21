@@ -14,4 +14,4 @@ db = client.swp_db
 
 users_collection = db.users_new
 logs_collection = db.logs_new
-conv_collection = db.conversations
+conversations_collection = db.conversations
