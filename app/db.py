@@ -12,5 +12,6 @@ if not MONGO_KEY:
 client = AsyncIOMotorClient(MONGO_KEY)
 db = client.swp_db
 
-users_collection = db.users
-logs_collection = db.logs
+users_collection = db.users_new
+logs_collection = db.logs_new
+conv_collection = db.conversations

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict, GetJsonSchemaHandler
-from datetime import datetime
-from typing import Optional, Any
 from bson import ObjectId
+from typing import Optional, Literal, List, Any
+from datetime import datetime
 from pydantic_core import core_schema
 
 
@@ -26,26 +26,31 @@ class PyObjectId(ObjectId):
         }
 
 
-
-class LogIn(BaseModel):
-    user_id: int
-    activity_id: str
-    type: str = Field(min_length=1, max_length=50)
-    value: Optional[str] = None
-    start_time: datetime
-    completion_time: datetime
-    build_version: Optional[str] = None
+class Message(BaseModel):
+    sender: Literal["user", "bot"]
+    text: str = Field(min_length=1)
+    time: datetime
 
     model_config = ConfigDict(extra="forbid")
 
 
-class LogDB(LogIn):
-    id: PyObjectId = Field(default=None, alias="_id")
+class ConversationIn(BaseModel):
+    user_id: int
+    messages: Optional[List[Message]]
 
-    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
+    model_config = ConfigDict(extra="forbid")
 
 
-class LogOut(LogIn):
+class ConversationDB(ConversationIn):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True
+    )
+
+
+class ConversationOut(ConversationIn):
     id: str = Field(alias="_id")
 
     model_config = ConfigDict(populate_by_name=True)

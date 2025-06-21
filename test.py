@@ -1,6 +1,6 @@
 import requests
 
-url = "https://swpdb-production.up.railway.app/logs/"
+url = "https://swpdb-production.up.railway.app/logs/" + "68553596fe0eb046a2c50e76"
 
 data = {
     "tg_id": 200,
@@ -40,7 +40,7 @@ log_data = {
     "build_version": "string"
 }
 
-response = requests.post(url, json=log_data)
+response = requests.delete(url)
 
 print(response.status_code)
 print(response.text)
