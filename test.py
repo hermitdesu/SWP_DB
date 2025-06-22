@@ -1,14 +1,18 @@
 import requests
 
-url = "https://swpdb-production.up.railway.app/users/"
+url = "https://swpdb-production.up.railway.app/users/1000000000000"
 
 data = {
-    "id": 10000000000112,
+    "_id": 1000000000000,
     "name": "Ivan",
     "surname": "Ivanovich",
     "gender": "male",
     "language": "ru",
-}
+    "recommendation_method": "fixed",
+    "launch_count": 5,
+    "current_bundle_version": 239,
+    "bundle_version_at_install": 239
+    }
 
 conv_data = {
         "messages": [
@@ -36,7 +40,7 @@ log_data = {
     "build_version": "string"
 }
 
-response = requests.post(url, json=data)
+response = requests.put(url, json=data)
 
 print(response.status_code)
 print(response.text)
