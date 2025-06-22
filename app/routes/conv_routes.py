@@ -29,7 +29,7 @@ async def add_message(conv_id: str, message: Message):
 
 @router.get("/{conv_id}", response_model=ConversationOut)
 async def get_conversation(conv_id: str):
-    conversation = await crud.read_conv(conversations_collection, conv_id)
+    conversation = await crud.read_conv(conversations_collection, conv_id)git 
     if not conversation:
         raise HTTPException(status_code=404, detail="Conversation not found")
     return ConversationOut(**conversation)
