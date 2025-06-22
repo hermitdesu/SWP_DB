@@ -3,11 +3,13 @@ from app.models.conv import ConversationIn, ConversationOut, Message
 import app.cruds.conv_crud as crud
 from app.db import conversations_collection
 
+
 router = APIRouter(prefix="/conversations", tags=["Conversations"])
 
 
 @router.post("/", response_model=ConversationOut)
 async def create_conversation(conv: ConversationIn):
+    print("+++++++++++CREATE_CONV+++++++++++++++++")
     conv_id = await crud.create_conv(conversations_collection, conv)
     conversation = await crud.read_conv(conversations_collection, conv_id)
     if not conversation:
