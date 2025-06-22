@@ -4,7 +4,7 @@ from bson import ObjectId, errors
 
 
 async def create_conv(collection: AsyncIOMotorCollection, conv: ConversationIn) -> str:
-    result = await collection.insert_one(ConversationIn.model_dump(by_alias=True, exclude_unset=True))
+    result = await collection.insert_one(conv.model_dump(by_alias=True, exclude_unset=True))
     return str(result.inserted_id)
 
 
