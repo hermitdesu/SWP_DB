@@ -3,7 +3,7 @@ import requests
 url = "https://swpdb-production.up.railway.app/users/"
 
 data = {
-    "tg_id": 1000000000,
+    "id": 10000000000112,
     "name": "Ivan",
     "surname": "Ivanovich",
     "gender": "male",

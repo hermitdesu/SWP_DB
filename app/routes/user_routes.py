@@ -27,8 +27,8 @@ async def read_user(user_id: int):
 
 
 @router.put("/{user_id}", response_model=bool)
-async def update_user(user_id: int, user: UserIn):
-    success = await crud.update_user(users_collection, user_id, user)
+async def update_user(user_id: int, user: UserDB):
+    success = await crud.update_user_by_id(users_collection, user_id, user)
     if not success:
         raise HTTPException(status_code=404, detail="User not updated")
     return True
@@ -40,7 +40,6 @@ async def delete_user(user_id: int):
     if not success:
         raise HTTPException(status_code=404, detail="User not found")
     return True
-
 
 
 

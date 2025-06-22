@@ -3,7 +3,7 @@ from typing import Optional, Literal
 
 
 class UserIn(BaseModel):
-    id: int
+    id: int = Field(default=None, alias="_id")
     name: str = Field(min_length=1, max_length=50)
     surname: str = Field(min_length=1, max_length=50)
     gender: Literal["male", "female"]
@@ -20,10 +20,9 @@ class UserDB(UserIn):
 
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
+
 class UserOut(UserDB):
     pass
-
-
 
 
 # class PyObjectId(ObjectId):
