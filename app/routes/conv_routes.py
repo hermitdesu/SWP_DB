@@ -9,11 +9,13 @@ router = APIRouter(prefix="/conversations", tags=["Conversations"])
 
 @router.post("/", response_model=ConversationOut)
 async def create_conversation(conv: ConversationIn):
-    print("+++++++++++CREATE_CONV+++++++++++++++++")
     conv_id = await crud.create_conv(conversations_collection, conv)
     conversation = await crud.read_conv(conversations_collection, conv_id)
     if not conversation:
         raise HTTPException(status_code=500, detail="Conversation creation failed")
+    
+    conversation["_id"] = str(conversation["_id"])
+    
     return ConversationOut(**conversation)
 
 
@@ -38,7 +40,13 @@ async def get_user_conversations(user_id: int):
     conversations = await crud.read_user_conv(conversations_collection, user_id)
     if not conversations:
         raise HTTPException(status_code=404, detail="Conversations not found")
+    
+    # Преобразуем _id в строку для каждого документа
+    for conv in conversations:
+        conv["_id"] = str(conv["_id"])
+    
     return [ConversationOut(**conv) for conv in conversations]
+
 
 
 @router.put("/{conv_id}", response_model=bool)
