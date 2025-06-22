@@ -8,11 +8,12 @@ class UserIn(BaseModel):
     surname: str = Field(min_length=1, max_length=50)
     gender: Literal["male", "female"]
     language: Literal["ru", "en"]
-    recommendation_method: Optional[Literal["fixed", "kb", "cf"]] = None
 
     model_config = ConfigDict(extra="forbid")
 
+
 class UserDB(UserIn):
+    recommendation_method: Optional[Literal["fixed", "kb", "cf"]] = None
     launch_count: int = 0
     current_bundle_version: Optional[int] = None
     bundle_version_at_install: Optional[int] = None

@@ -1,17 +1,13 @@
 import requests
 
-url = "https://swpdb-production.up.railway.app/logs/" + "68553596fe0eb046a2c50e76"
+url = "https://swpdb-production.up.railway.app/users/"
 
 data = {
-    "tg_id": 200,
-    "name": "vasiliy",
-    "surname": "kaizer",
+    "tg_id": 1000000000,
+    "name": "Ivan",
+    "surname": "Ivanovich",
     "gender": "male",
-    "language": "en",
-    "recommendation_method": "fixed",
-    "launch_count": 10,
-    "current_bundle_version": 1,
-    "bundle_version_at_install": 1,
+    "language": "ru",
 }
 
 conv_data = {
@@ -40,7 +36,7 @@ log_data = {
     "build_version": "string"
 }
 
-response = requests.delete(url)
+response = requests.post(url, json=data)
 
 print(response.status_code)
 print(response.text)
