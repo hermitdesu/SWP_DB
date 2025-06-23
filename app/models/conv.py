@@ -36,7 +36,7 @@ class Message(BaseModel):
 
 class ConversationIn(BaseModel):
     user_id: int
-    messages: Optional[List[Message]]
+    messages: Optional[List[Message]] = []
 
     model_config = ConfigDict(extra="forbid")
 

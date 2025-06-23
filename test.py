@@ -1,6 +1,6 @@
 import requests
 
-url = "https://swpdb-production.up.railway.app/users/1000000000000"
+url = "https://swpdb-production.up.railway.app/conversations/"
 
 data = {
     "_id": 1000000000000,
@@ -30,6 +30,10 @@ message_data = {
     "time": "2025-06-02T08:47:49.655+00:00"
 }
 
+conv = {
+  "user_id": 4312
+}
+
 log_data = {
     "user_id": "user_id",
     "activity_id": "name",
@@ -40,7 +44,7 @@ log_data = {
     "build_version": "string"
 }
 
-response = requests.put(url, json=data)
+response = requests.post(url, json=conv)
 
 print(response.status_code)
 print(response.text)
