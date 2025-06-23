@@ -26,8 +26,9 @@ async def read_conv(collection: AsyncIOMotorCollection, id: str) -> dict | None:
         return None
     return await collection.find_one({"_id": oid})
 
-async def read_user_conv(collection: AsyncIOMotorCollection, user_id: int) -> dict | None:
-    return await collection.find({"user_id": user_id})
+async def read_user_conv(collection: AsyncIOMotorCollection, user_id: int) -> list[dict]:
+    cursor = collection.find({"user_id": user_id})
+    return await cursor.to_list(length=100)
 
 
 async def update_conv(collection: AsyncIOMotorCollection, id: str, conv: ConversationIn) -> bool:
