@@ -6,6 +6,8 @@ from app.models.conv import Message, ConversationIn, ConversationDB, Conversatio
 
 class TestMessage:
 
+    """tests for Message"""
+
     def test_message_valid_user(self):
         time = datetime.now()
         message = Message(sender="user", text="Hello", time=time)

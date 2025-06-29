@@ -391,7 +391,6 @@ class TestLogModelIntegration:
         assert log_out.value == "test_value"
 
     def test_log_validation_chain(self):
-        """Тест цепочки валидации"""
         start_time = datetime.now()
         completion_time = datetime.now()
         
@@ -406,7 +405,6 @@ class TestLogModelIntegration:
             )
 
     def test_log_edge_cases(self):
-        """Тест граничных случаев"""
         start_time = datetime.now()
         completion_time = datetime.now()
      
@@ -440,7 +438,6 @@ class TestLogModelIntegration:
         assert log.user_id == -1
 
     def test_log_serialization_chain(self):
-        """Тест цепочки сериализации"""
         start_time = datetime.now()
         completion_time = datetime.now()
         

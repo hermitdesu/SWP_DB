@@ -1,8 +1,3 @@
-"""
-Mock тесты для CRUD операций
-Тестируем логику функций без подключения к реальной базе данных
-"""
-
 import pytest
 from unittest.mock import AsyncMock, Mock
 from bson import ObjectId

@@ -162,7 +162,7 @@ class TestUserOut:
 
 
 class TestUserModelIntegration:
-    """Integration tests fro user model"""
+    """Integration tests for user model"""
 
     def test_user_workflow(self):
         user_in = UserIn(name="John Doe")
