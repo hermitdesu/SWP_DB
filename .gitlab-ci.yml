@@ -1,5 +1,6 @@
 stages:
   - lint
+  - test
 
 flake8-lint:
   image: python:3.11
@@ -7,3 +8,24 @@ flake8-lint:
   script:
     - pip install flake8
     - flake8 .
+
+bandit-security-check:
+  image: python:3.11
+  stage: lint
+  script:
+    - pip install bandit
+    - bandit -r . -f html -o bandit-report.html
+  artifacts:
+    paths:
+      - bandit-report.html
+
+pytest:
+  image: python:3.11
+  stage: test
+  script:
+    - pip install -r requirements.txt
+    - pip install pytest pytest-cov
+    - pytest --cov=. --cov-report=html
+  artifacts:
+    paths:
+      - htmlcov/
