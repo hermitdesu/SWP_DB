@@ -40,12 +40,12 @@ class LogIn(BaseModel):
 
 
 class LogDB(LogIn):
-    id: PyObjectId = Field(default=None, alias="_id")
+    id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
 
     model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
 
 
 class LogOut(LogIn):
-    id: str = Field(alias="_id")
+    id: str = Field(default="", alias="_id")
 
     model_config = ConfigDict(populate_by_name=True)

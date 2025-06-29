@@ -44,7 +44,6 @@ async def get_user_conversations(user_id: int):
     if not conversations:
         raise HTTPException(status_code=404, detail="Conversations not found")
     
-    # Преобразуем _id в строку для каждого документа
     for conv in conversations:
         conv["_id"] = str(conv["_id"])
     

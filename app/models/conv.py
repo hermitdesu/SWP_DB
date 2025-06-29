@@ -51,6 +51,6 @@ class ConversationDB(ConversationIn):
 
 
 class ConversationOut(ConversationIn):
-    id: str = Field(alias="_id")
+    id: str = Field(default="", alias="_id")
 
     model_config = ConfigDict(populate_by_name=True)
