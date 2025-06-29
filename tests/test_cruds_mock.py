@@ -17,11 +17,10 @@ from app.models.log import LogIn
 
 
 class TestUserCRUDMock:
-    """Mock тесты для User CRUD операций"""
+    """Mock tests for user crud"""
 
     @pytest.mark.asyncio
     async def test_create_user_success(self):
-        """Тест успешного создания пользователя"""
         mock_collection = AsyncMock()
         user = UserDB(name="John Doe")
         user.id = 123
@@ -31,14 +30,12 @@ class TestUserCRUDMock:
         assert result == 123
         mock_collection.insert_one.assert_called_once()
         
-        # Проверяем, что insert_one был вызван с правильными данными
         call_args = mock_collection.insert_one.call_args[0][0]
         assert call_args["name"] == "John Doe"
         assert call_args["_id"] == 123
 
     @pytest.mark.asyncio
     async def test_read_user_by_id_found(self):
-        """Тест чтения существующего пользователя"""
         mock_collection = AsyncMock()
         user_doc = {
             "_id": 123,
@@ -55,7 +52,6 @@ class TestUserCRUDMock:
 
     @pytest.mark.asyncio
     async def test_read_user_by_id_not_found(self):
-        """Тест чтения несуществующего пользователя"""
         mock_collection = AsyncMock()
         mock_collection.find_one.return_value = None
         
@@ -66,7 +62,6 @@ class TestUserCRUDMock:
 
     @pytest.mark.asyncio
     async def test_update_user_by_id_success(self):
-        """Тест успешного обновления пользователя"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.modified_count = 1
@@ -82,7 +77,6 @@ class TestUserCRUDMock:
 
     @pytest.mark.asyncio
     async def test_update_user_by_id_not_found(self):
-        """Тест обновления несуществующего пользователя"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.modified_count = 0
@@ -98,7 +92,6 @@ class TestUserCRUDMock:
 
     @pytest.mark.asyncio
     async def test_delete_user_by_id_success(self):
-        """Тест успешного удаления пользователя"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.deleted_count = 1
@@ -111,7 +104,6 @@ class TestUserCRUDMock:
 
     @pytest.mark.asyncio
     async def test_delete_user_by_id_not_found(self):
-        """Тест удаления несуществующего пользователя"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.deleted_count = 0
@@ -124,11 +116,10 @@ class TestUserCRUDMock:
 
 
 class TestConversationCRUDMock:
-    """Mock тесты для Conversation CRUD операций"""
+    """Mock tests for conv crud"""
 
     @pytest.mark.asyncio
     async def test_create_conv_success(self):
-        """Тест успешного создания беседы"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.inserted_id = ObjectId()
@@ -144,7 +135,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_create_message_success(self):
-        """Тест успешного добавления сообщения"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.modified_count = 1
@@ -160,7 +150,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_create_message_invalid_id(self):
-        """Тест добавления сообщения с неверным ID беседы"""
         mock_collection = AsyncMock()
         message = Message(sender="user", text="Hello", time=datetime.now())
         
@@ -171,7 +160,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_read_conv_found(self):
-        """Тест чтения существующей беседы"""
         mock_collection = AsyncMock()
         conv_doc = {
             "_id": ObjectId(),
@@ -188,7 +176,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_read_conv_not_found(self):
-        """Тест чтения несуществующей беседы"""
         mock_collection = AsyncMock()
         mock_collection.find_one.return_value = None
         
@@ -200,7 +187,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_read_conv_invalid_id(self):
-        """Тест чтения беседы с неверным ID"""
         mock_collection = AsyncMock()
         
         result = await read_conv(mock_collection, "invalid_id")
@@ -210,7 +196,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_read_user_conv(self):
-        """Тест чтения бесед пользователя"""
         from unittest.mock import Mock
         mock_collection = Mock()
         convs = [
@@ -229,7 +214,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_update_conv_success(self):
-        """Тест успешного обновления беседы"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.modified_count = 1
@@ -245,7 +229,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_update_conv_invalid_id(self):
-        """Тест обновления беседы с неверным ID"""
         mock_collection = AsyncMock()
         conv = ConversationIn(user_id=123, messages=[])
         
@@ -256,7 +239,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_delete_conv_success(self):
-        """Тест успешного удаления беседы"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.deleted_count = 1
@@ -270,7 +252,6 @@ class TestConversationCRUDMock:
 
     @pytest.mark.asyncio
     async def test_delete_conv_invalid_id(self):
-        """Тест удаления беседы с неверным ID"""
         mock_collection = AsyncMock()
         
         result = await delete_conv(mock_collection, "invalid_id")
@@ -280,11 +261,10 @@ class TestConversationCRUDMock:
 
 
 class TestLogCRUDMock:
-    """Mock тесты для Log CRUD операций"""
+    """Mock tests for log crud"""
 
     @pytest.mark.asyncio
     async def test_create_log_success(self):
-        """Тест успешного создания лога"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.inserted_id = ObjectId()
@@ -306,7 +286,6 @@ class TestLogCRUDMock:
 
     @pytest.mark.asyncio
     async def test_read_log_found(self):
-        """Тест чтения существующего лога"""
         mock_collection = AsyncMock()
         log_doc = {
             "_id": ObjectId(),
@@ -324,7 +303,6 @@ class TestLogCRUDMock:
 
     @pytest.mark.asyncio
     async def test_read_log_not_found(self):
-        """Тест чтения несуществующего лога"""
         mock_collection = AsyncMock()
         mock_collection.find_one.return_value = None
         
@@ -336,7 +314,6 @@ class TestLogCRUDMock:
 
     @pytest.mark.asyncio
     async def test_update_log_success(self):
-        """Тест успешного обновления лога"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.modified_count = 1
@@ -358,7 +335,6 @@ class TestLogCRUDMock:
 
     @pytest.mark.asyncio
     async def test_delete_log_success(self):
-        """Тест успешного удаления лога"""
         mock_collection = AsyncMock()
         mock_result = AsyncMock()
         mock_result.deleted_count = 1

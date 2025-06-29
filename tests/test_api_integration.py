@@ -1,7 +1,3 @@
-"""
-Интеграционные тесты для API endpoints
-Тестируем HTTP endpoints с моками базы данных
-"""
 
 import unittest
 from unittest.mock import patch, AsyncMock
@@ -13,10 +9,9 @@ from app.main import app
 
 
 class TestUserAPI(unittest.TestCase):
-    """Интеграционные тесты для User API endpoints"""
+    """Integration tests for user api"""
 
     def setUp(self):
-        """Настройка тестового клиента"""
         self.client = TestClient(app)
         self.user_data = {
             "name": "Test User"
@@ -24,12 +19,10 @@ class TestUserAPI(unittest.TestCase):
 
     @patch('app.routes.user_routes.users_collection')
     def test_create_user_success(self, mock_collection):
-        """Тест успешного создания пользователя через API"""
         mock_result = AsyncMock()
         mock_result.inserted_id = 123
         mock_collection.insert_one = AsyncMock(return_value=mock_result)
         
-        # Мокаем read_user_by_id для возврата созданного пользователя
         user_doc = {
             "_id": 123,
             "name": "Test User",
@@ -50,14 +43,12 @@ class TestUserAPI(unittest.TestCase):
 
     @patch('app.routes.user_routes.users_collection')
     def test_create_user_invalid_data(self, mock_collection):
-        """Тест создания пользователя с невалидными данными через API"""
         response = self.client.post("/users/", json={"name": ""})
         
         self.assertEqual(response.status_code, 422)
 
     @patch('app.routes.user_routes.users_collection')
     def test_read_user_found(self, mock_collection):
-        """Тест чтения существующего пользователя через API"""
         user_doc = {
             "_id": 123,
             "name": "Test User",
@@ -78,7 +69,6 @@ class TestUserAPI(unittest.TestCase):
 
     @patch('app.routes.user_routes.users_collection')
     def test_read_user_not_found(self, mock_collection):
-        """Тест чтения несуществующего пользователя через API"""
         mock_collection.find_one = AsyncMock(return_value=None)
 
         response = self.client.get("/users/999")
@@ -88,7 +78,6 @@ class TestUserAPI(unittest.TestCase):
 
     @patch('app.routes.user_routes.users_collection')
     def test_update_user_success(self, mock_collection):
-        """Тест успешного обновления пользователя через API"""
         mock_result = AsyncMock()
         mock_result.modified_count = 1
         mock_collection.replace_one = AsyncMock(return_value=mock_result)
@@ -100,7 +89,6 @@ class TestUserAPI(unittest.TestCase):
 
     @patch('app.routes.user_routes.users_collection')
     def test_update_user_not_found(self, mock_collection):
-        """Тест обновления несуществующего пользователя через API"""
         mock_result = AsyncMock()
         mock_result.modified_count = 0
         mock_collection.replace_one = AsyncMock(return_value=mock_result)
@@ -112,7 +100,6 @@ class TestUserAPI(unittest.TestCase):
 
     @patch('app.routes.user_routes.users_collection')
     def test_delete_user_success(self, mock_collection):
-        """Тест успешного удаления пользователя через API"""
         mock_result = AsyncMock()
         mock_result.deleted_count = 1
         mock_collection.delete_one = AsyncMock(return_value=mock_result)
@@ -124,7 +111,6 @@ class TestUserAPI(unittest.TestCase):
 
     @patch('app.routes.user_routes.users_collection')
     def test_delete_user_not_found(self, mock_collection):
-        """Тест удаления несуществующего пользователя через API"""
         mock_result = AsyncMock()
         mock_result.deleted_count = 0
         mock_collection.delete_one = AsyncMock(return_value=mock_result)
@@ -136,10 +122,9 @@ class TestUserAPI(unittest.TestCase):
 
 
 class TestConversationAPI(unittest.TestCase):
-    """Интеграционные тесты для Conversation API endpoints"""
+    """Integration tests for conv api"""
 
     def setUp(self):
-        """Настройка тестового клиента"""
         self.client = TestClient(app)
         self.conv_data = {
             "user_id": 123,
@@ -148,12 +133,10 @@ class TestConversationAPI(unittest.TestCase):
 
     @patch('app.routes.conv_routes.conversations_collection')
     def test_create_conversation_success(self, mock_collection):
-        """Тест успешного создания беседы через API"""
         mock_result = AsyncMock()
         mock_result.inserted_id = ObjectId()
         mock_collection.insert_one = AsyncMock(return_value=mock_result)
         
-        # Мокаем read_conv для возврата созданной беседы
         conv_doc = {
             "_id": ObjectId(),
             "user_id": 123,
@@ -169,7 +152,6 @@ class TestConversationAPI(unittest.TestCase):
 
     @patch('app.routes.conv_routes.conversations_collection')
     def test_read_conversation_found(self, mock_collection):
-        """Тест чтения существующей беседы через API"""
         conv_doc = {
             "_id": ObjectId(),
             "user_id": 123,
@@ -185,7 +167,6 @@ class TestConversationAPI(unittest.TestCase):
 
     @patch('app.routes.conv_routes.conversations_collection')
     def test_read_conversation_not_found(self, mock_collection):
-        """Тест чтения несуществующей беседы через API"""
         mock_collection.find_one = AsyncMock(return_value=None)
 
         response = self.client.get(f"/conversations/{str(ObjectId())}")
@@ -195,7 +176,6 @@ class TestConversationAPI(unittest.TestCase):
 
     @patch('app.routes.conv_routes.conversations_collection')
     def test_add_message_success(self, mock_collection):
-        """Тест успешного добавления сообщения через API"""
         mock_result = AsyncMock()
         mock_result.modified_count = 1
         mock_collection.update_one = AsyncMock(return_value=mock_result)
@@ -213,7 +193,6 @@ class TestConversationAPI(unittest.TestCase):
 
     @patch('app.routes.conv_routes.conversations_collection')
     def test_get_user_conversations(self, mock_collection):
-        """Тест получения бесед пользователя через API"""
         convs = [
             {"_id": ObjectId(), "user_id": 123, "messages": []},
             {"_id": ObjectId(), "user_id": 123, "messages": []}
@@ -230,10 +209,9 @@ class TestConversationAPI(unittest.TestCase):
 
 
 class TestLogAPI(unittest.TestCase):
-    """Интеграционные тесты для Log API endpoints"""
+    """Integration tests for log api"""
 
     def setUp(self):
-        """Настройка тестового клиента"""
         self.client = TestClient(app)
         self.log_data = {
             "user_id": 123,
@@ -245,12 +223,10 @@ class TestLogAPI(unittest.TestCase):
 
     @patch('app.routes.log_routes.logs_collection')
     def test_create_log_success(self, mock_collection):
-        """Тест успешного создания лога через API"""
         mock_result = AsyncMock()
         mock_result.inserted_id = ObjectId()
         mock_collection.insert_one = AsyncMock(return_value=mock_result)
         
-        # Мокаем read_log для возврата созданного лога
         log_doc = {
             "_id": ObjectId(),
             "user_id": 123,
@@ -269,7 +245,6 @@ class TestLogAPI(unittest.TestCase):
 
     @patch('app.routes.log_routes.logs_collection')
     def test_read_log_found(self, mock_collection):
-        """Тест чтения существующего лога через API"""
         log_doc = {
             "_id": ObjectId(),
             "user_id": 123,
@@ -288,7 +263,6 @@ class TestLogAPI(unittest.TestCase):
 
     @patch('app.routes.log_routes.logs_collection')
     def test_update_log_success(self, mock_collection):
-        """Тест успешного обновления лога через API"""
         mock_result = AsyncMock()
         mock_result.modified_count = 1
         mock_collection.replace_one = AsyncMock(return_value=mock_result)
@@ -300,7 +274,6 @@ class TestLogAPI(unittest.TestCase):
 
     @patch('app.routes.log_routes.logs_collection')
     def test_delete_log_success(self, mock_collection):
-        """Тест успешного удаления лога через API"""
         mock_result = AsyncMock()
         mock_result.deleted_count = 1
         mock_collection.delete_one = AsyncMock(return_value=mock_result)
@@ -312,14 +285,11 @@ class TestLogAPI(unittest.TestCase):
 
 
 class TestRootEndpoint(unittest.TestCase):
-    """Интеграционные тесты для корневого endpoint"""
 
     def setUp(self):
-        """Настройка тестового клиента"""
         self.client = TestClient(app)
 
     def test_root_endpoint(self):
-        """Тест корневого endpoint"""
         response = self.client.get("/")
         
         self.assertEqual(response.status_code, 200)
