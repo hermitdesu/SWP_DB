@@ -22,7 +22,7 @@ app.include_router(conv_router)
 @app.get("/")
 async def root():
     """Root endpoint - basic API status"""
-    return {"message": "SWP Database API is running", "status": "healthy"}
+    return {"message": "API is running", "status": "healthy"}
 
 
 @app.get("/health")
